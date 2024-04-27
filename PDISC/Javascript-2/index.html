@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" class="formulario" id="nombre" placeholder="ingrese el nombre" value="Juancito">
+    <input type="text" class="formulario" id="telefono" placeholder="ingrese el apellido">
+    <div id="contenido">
+        <span>Contenido 1</span>
+        <span>Contenido 2</span>
+        <span>Contenido 3</span>
+    </div>
+
+    <script>
+        let miNombre = document.querySelector("#nombre");
+        console.log("value de componente nombre", miNombre.value);
+
+
+        console.log("lenght del componente nombre", miNombre.value.length);
+
+        let arrForms = document.querySelectorAll(".formulario");
+
+        console.log("elementos con clase formulario", arrForms.length);
+
+
+        let c = document.getElementsByClassName("formulario");
+        for (let e = 0; e < c.length; e++) {
+            console.log("La id de elementos con clase formulario:" + Number(e + 1), c[e].id);
+        }
+
+        let elementoContenido = document.getElementById("contenido");
+        elementoContenido.style.backgroundColor = "red";
+
+        let elementoSpan = document.querySelectorAll("span");
+        console.log("La cantidad de elementos span es"+ elementoSpan.length); 
+
+    </script>
+</body>
+
+</html>

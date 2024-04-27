@@ -1,0 +1,1 @@
+//Las funciones map, reduce y filter podriamos aplicarlas en los ejercicios 12 y 13.

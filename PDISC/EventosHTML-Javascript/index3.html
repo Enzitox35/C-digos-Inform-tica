@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="div1">Div 1</div>
+    <input type="button" onclick="mostrar()" value="mostrar/ocultar">
+    <script>
+        function mostrar(){
+            let div = document.querySelector("#div1");
+            let estado = div.style.display;
+            if (estado=="none"){
+                div.style.display="block";
+            }else{
+                div.style.display="none";
+            }
+        }
+    </script>
+</body>
+</html>

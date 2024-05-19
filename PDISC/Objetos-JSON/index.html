@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div>
+        <div> <span>netbook</span> <span>15</span> <span>true</span> </div>
+        <div> <span>netbook</span> <span>1</span> <span>false</span> </div>
+    </div>
+
+    <div id="contenido"></div>
+    <script>
+        //ejercicio 1
+        let persona1 = { "nombre": "Pepe", "apellido": "Gonzalez" };
+        console.log(persona1);
+
+        //ejercicio 2
+        console.log("el nombre y apellido de la persona es: " + persona1.nombre + persona1.apellido);
+
+        //ejercicio 3
+        let persona2 = { "nombre": "Maria", "apellido": "Gimenez" };
+        let personas = [persona1, persona2];
+        personas.forEach(personaActual => {
+            console.log(personaActual);
+
+        });
+
+        //ejercicio 4
+        let persona3 = {};
+        persona3.nombre = "Martin";
+        persona3.apellido = "Capusotto";
+        persona3.edad = 18;
+        personas.push(persona3);
+        personas.forEach(personaActual => {
+            console.log(personaActual);
+
+        })
+
+        //ejercicio 5 
+        let objeto = {
+            nombre: "Lionel",
+            edad: 35,
+            hijos: { "nombre1": "Thiago", "nombre2": "Mateo", "nombre3": "Ciro", },
+            equipos: ["FC Barcelona", "Paris Saint Germain", "Inter Miami"],
+            argentino: true,
+            deudas: null,
+        }
+        console.log(objeto);
+
+        //ejercico 6
+        const myObj = { "nombre": "Juancito", "edad": 31, "ciudad": "Chascomus" };
+        const myJSON = JSON.stringify(myObj);
+        console.log(myJSON);
+
+        const text = '{"nombre":"Marianela","edad":14}';
+        let obj = JSON.parse(text);
+        console.log(obj);
+
+        //ejercicio 7
+        localStorage.setItem("testJSON", myJSON);
+        let texto = localStorage.getItem("testJSON");
+
+        //ejercicio 8
+        let miMascota = { "nombre": "Julian", "raza": "pitbull", "edad": 5 };
+        let descripcion = `El nombre de mi mascota es ${miMascota.nombre} y tiene ${miMascota.edad} años`;
+        console.log(descripcion);
+
+        //ejercicio 9
+        let objetosRetirados = [
+            { "tipo": "netbook", "codigo": 15, "retirada": true },
+            { "tipo": "netbook", "codigo": 1, "retirada": false }];
+        for (var a = 0; a < objetosRetirados.length; a++) {
+            console.log(objetosRetirados[a].tipo);
+            console.log(objetosRetirados[a].codigo);
+            console.log(objetosRetirados[a].retirada);
+        }
+        let miHTML = "";
+        document.querySelector("#contenido");
+        objetosRetirados.forEach(elem => {
+            miHTML += `<div>
+                    <span>${elem.tipo}</span>
+                    <span>${elem.codigo}</span>
+                    <span>${elem.retirada}</span>
+                    </div>`;
+            console.log(elem);
+        });
+        document.querySelector("#contenido").innerHTML = miHTML;
+    </script>
+</body>
+
+</html>

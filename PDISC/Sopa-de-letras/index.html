@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhj
+Y6hW+ALEwIH" crossorigin="anonymous" />
+    <style>
+        .letras{
+            cursor: pointer;
+        }
+    </style>
+
+</head>
+<body>
+    <body>
+        <div class="container">
+          <input type="text" id="palabra" />
+          <input type="button" onclick="agregarPalabra()" value="agregar palabra" />
+          <br />
+          <br />
+          <select id="palabras" size="5" style="display: none"></select>
+          <br />
+          <input
+            type="button"
+            onclick="comenzarJuego()"
+            style="display: none"
+            value="comenzar juego"
+            id="comenzar"
+          />
+          <h1><div id="mensaje"></div></h1>
+          <div id="dibujo"></div>
+        </div>
+     
+        <script>
+          let posicionGanadora = [];
+          let posicionSeleccionada = [];
+          let posicionPalabrasSeleccionadas = {};
+    
+          function getRandomInt(max) {
+            return Math.floor(Math.random() * max);
+          }
+          function getRandomLetter() {
+            const chars =
+              "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            return chars.charAt(Math.floor(Math.random() * chars.length));
+          }
+            function comenzarJuego() {
+            let palabras = document.querySelector("#palabras").options;
+            let dibujo = document.querySelector("#dibujo");
+     
+            dibujo.innerHTML = "";
+            posicionGanadora = [];
+            posicionSeleccionada = [];
+            posicionPalabrasSeleccionadas = {};
+         
+            mostrarMensaje("");
+     
+            let palabraMasLarga = -1;
+            Array.from(palabras).forEach((option) => {
+              if (option.value.length > palabraMasLarga) {
+                palabraMasLarga = option.value;
+              }
+            });
+     
+            //uso un ancho fijo de 12 columnas
+            let anchoTablero = 12;
+     
+            //el largo lo hago variable
+            let largoTablero = palabraMasLarga.length + getRandomInt(5);
+            //console.log("largoTablero", largoTablero);
+            //armo el tablero en blanco
+            let fila = "";
+            for (let x = 0; x < largoTablero; x++) {
+              fila = `<div class="row" fila='${x}'>`;
+              for (let y = 0; y < anchoTablero; y++) {
+                const letraRandom = getRandomLetter();
+                const posicion = `_${x}_${y}`;
+                fila += `<div class="col"><span onclick="elijoLetra('${posicion}')" ><h1 class="letras" id="${posicion}">${letraRandom}</h1></span></div>`;
+              }
+              fila += `</div>`;
+              dibujo.innerHTML += fila;
+            }
+
+            Array.from(palabras).forEach((option) => {
+              dibujarPalabra(option.value, anchoTablero, largoTablero);
+            });
+     
+     
+            console.log(posicionPalabrasSeleccionadas);
+          }
+          function agregarPalabra() {
+            let palabra = document.querySelector("#palabra").value;
+            let palabras = document.querySelector("#palabras");
+            var opt = document.createElement("option");
+            opt.value = palabra;
+            opt.innerHTML = palabra;
+            palabras.appendChild(opt);
+            document.querySelector("#comenzar").style.display = "block";
+            document.querySelector("#palabras").style.display = "block";
+            document.querySelector("#palabra").value = "";
+            document.querySelector("#palabra").focus();
+          }
+
+          function dibujarPalabra(palabra, anchoTablero, largoTablero) {
+            //let palabra = document.querySelector("#palabra");
+            
+            //ubico la palabra escrita en el tablero ya pintado, en una posicion random!
+            let anchoInicial = getRandomInt(anchoTablero);
+            let largoInicial = getRandomInt(largoTablero - palabra.length);
+            //const orientacionPalabra = getRandomInt(10);
+            //console.log(anchoInicial, largoInicial);
+            for (const letra of palabra) {
+              let posicion = `_${largoInicial}_${anchoInicial}`;
+     
+              dibujarLetraEnPosicion(letra, posicion);
+              if (posicionPalabrasSeleccionadas[palabra] === undefined) {
+                posicionPalabrasSeleccionadas[palabra] = [];
+              }
+              //console.log(posicionPalabrasSeleccionadas[palabra]);
+              posicionPalabrasSeleccionadas[palabra].push(posicion);
+              largoInicial = largoInicial + 1;
+            }
+          }
+          function dibujarLetraEnPosicion(letra, posicion) {
+            //console.log("dibujarLetraEnPosicion", letra, posicion);
+            document.querySelector(`#${posicion}`).innerHTML = letra;
+            posicionGanadora.push(posicion);
+          }
+          function pintarPosicion(posicion, color) {
+            document.querySelector(`#${posicion}`).style.backgroundColor = color;
+          }
+          function elijoLetra(posicion) {
+            pintarPosicion(posicion, "#00FFFF")
+            //console.log(posicion);
+            if (posicionGanadora.includes(posicion)) {
+              posicionSeleccionada.push(posicion);
+            }
+            /*console.log(
+              posicionSeleccionada,
+              posicionGanadora,
+              posicionPalabrasSeleccionadas
+            );*/
+            let ganaste = true;
+            Object.keys(posicionPalabrasSeleccionadas).forEach((key) => {
+              console.log(`Key: ${key}`);
+              const estaTodaLaPalabra = posicionPalabrasSeleccionadas[key].every(
+                (elem) => posicionSeleccionada.includes(elem)
+              );
+              console.log(estaTodaLaPalabra);
+              if (estaTodaLaPalabra) {
+                mostrarMensaje(`Encontraste la palabra ${key}!!`);
+                pintarPosicion("mensaje", "#7FFF00");
+                posicionPalabrasSeleccionadas[key].forEach((posicion) => {
+                  pintarPosicion(posicion, "#7FFF00");
+                });
+              }
+              ganaste = ganaste && estaTodaLaPalabra;
+              /*posicionPalabrasSeleccionadas[key].forEach((value) => {
+                console.log(`Value: ${value}`);
+              });*/
+            });
+            if (ganaste) {
+              mostrarMensaje("Encontraste TODAS las palabras. GANASTE!!");
+              /*pintarPosicion("mensaje", "#7FFF00");
+              posicionGanadora.forEach((posicion) => {
+                pintarPosicion(posicion, "#7FFF00");
+              });*/
+            }
+          }
+
+            function mostrarMensaje(mensaje) {
+            document.querySelector("#mensaje").innerHTML = mensaje;
+          }
+
+            function ganador() {}
+        </script>   
+        <script
+          src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+          crossorigin="anonymous"
+        ></script>
+      </body>
+     
+</body>
+</html>

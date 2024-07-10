@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function cargarDatos() {
+            let profesor = {
+                nombre: document.getElementById('nombre').value,
+                apellido: document.getElementById('apellido').value,
+                dni: document.getElementById('dni').value
+            };
+
+            console.log(profesor);
+
+            let datosProfesor = document.getElementById('datosProfesor');
+            datosProfesor.innerHTML = `
+                <p>Nombre: ${profesor.nombre}</p>
+                <p>Apellido: ${profesor.apellido}</p>
+                <p>DNI: ${profesor.dni}</p>
+            `;
+        }
+    </script>
+
+    <h2>Datos de Profesor</h2>
+    <form>
+        <label for="nombre">Nombre:</label>
+        <input type="text" id="nombre" required><br><br>
+        <label for="apellido">Apellido:</label>
+        <input type="text" id="apellido" required><br><br>
+        <label for="dni">DNI:</label>
+        <input type="text" id="dni" required><br><br>
+        <button type="button" onclick="cargarDatos()">Cargar datos</button>
+    </form>
+
+    <div id="datosProfesor">
+    </div>
+
+    <script>
+        function cargarDatos() {
+            let materia = {
+                nombre: document.getElementById('nombreMateria').value,
+                año: document.getElementById('año').value,
+                profesor: {
+                    nombre: document.getElementById('nombreProfesor').value,
+                    apellido: document.getElementById('apellidoProfesor').value,
+                    dni: document.getElementById('dniProfesor').value
+                }
+            };
+
+            console.log(materia);
+
+            let datosMateria = document.getElementById('datosMateria');
+            datosMateria.innerHTML = `
+                <p>Nombre de la Materia: ${materia.nombre}</p>
+                <p>Año: ${materia.año}</p>
+                <p>Nombre de profesor: ${materia.profesor.nombre}</p>
+                <p>Apellido de profesor: ${materia.profesor.apellido}</p>
+                <p>DNI de profesor: ${materia.profesor.dni}</p>
+            `;
+        }
+    </script>
+
+    <h2>Datos de Materia y Profesor</h2>
+    <form>
+        <label for="nombreMateria">Materia:</label>
+        <input type="text" id="nombreMateria" required><br><br>
+        <label for="año">Año:</label>
+        <input type="number" id="año" required><br><br>
+        <label for="nombreProfesor">Profesor:</label>
+        <input type="text" id="nombreProfesor" required><br><br>
+        <label for="apellidoProfesor">Apellido del profesor:</label>
+        <input type="text" id="apellidoProfesor" required><br><br>
+        <label for="dniProfesor">DNI del profesor:</label>
+        <input type="text" id="dniProfesor" required><br><br>
+        <button type="button" onclick="cargarDatos()">Cargar datos</button>
+    </form>
+
+    <div id="datosMateria">
+    </div>
+
+    <h1>Listado de Netbooks, Teclados y Mouse</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Tipo</th>
+                <th>ID</th>
+                <th>Estado</th>
+                <th>Retirado por</th>
+                <th>Aula</th>
+                <th>Materia</th>
+            </tr>
+        </thead>
+        </tbody>
+    </table>
+
+    <script>
+        let data = [
+            {
+                "id": 1,
+                "fecha": "24-6-2022 10:32:00",
+                "profesor": {
+                    "id": 1,
+                    "nombre": "Juan",
+                    "apellido": "Juan"
+                },
+                "materia": {
+                    "id": 100,
+                    "nombre": "Programacion",
+                    "anio": 7
+                },
+                "aula": "Laboratorio 1",
+                "objetos": [
+                    { "id": 10, "tipo": "netbook", "codigo": 25 },
+                    { "id": 5, "tipo": "mouse", "codigo": 10 },
+                    { "id": 7, "tipo": "teclado", "codigo": 1 }
+                ]
+            },
+            {
+                "id": 2,
+                "fecha": "24-6-2022 17:32:00",
+                "profesor": {
+                    "id": 2,
+                    "nombre": "Jose",
+                    "apellido": "Jose"
+                },
+                "materia": {
+                    "id": 102,
+                    "nombre": "Programacion 2",
+                    "anio": 7
+                },
+                "aula": "Laboratorio 2",
+                "objetos": [
+                    { "id": 0, "tipo": "netbook", "codigo": 1 },
+                    { "id": 6, "tipo": "mouse", "codigo": 2 }
+                ]
+            }
+
+        ];
+
+        function mostrarObjetos() {
+            let netbooksDiv = document.getElementById('netbooks');
+            let tecladosDiv = document.getElementById('teclados');
+            let mouseDiv = document.getElementById('mouse');
+        }
+        data.forEach(a => {
+            a.objetos.forEach(objeto => {
+                let objetoDiv = document.createElement('div');
+                objetoDiv.classList.add('objeto-item');
+
+                let estado;
+                let info = '';
+
+                if (objeto.retirado) {
+                    status = 'retirado';
+                    info = `<p>Retirado por: ${a.profesor.nombre} ${a.profesor.apellido}</p>`;
+                    info += `<p>Aula: ${a.aula}</p>`;
+                    info += `<p>Materia: ${a.materia.nombre}</p>`;
+                } else {
+                    estado = 'disponible';
+                    info = '<p>Disponible</p>';
+                }
+
+                objetoDiv.innerHTML = `
+                        <h3>${objeto.tipo} (Código: ${objeto.codigo})</h3>
+                        ${info}
+                    `;
+
+                objetoDiv.classList.add(estado);
+
+                if (objeto.tipo === 'netbook') {
+                    netbooks.appendChild(objetoDiv);
+                } else if (objeto.tipo === 'teclado') {
+                    teclados.appendChild(objetoDiv);
+                } else if (objeto.tipo === 'mouse') {
+                    mouse.appendChild(objetoDiv);
+                }
+            });
+        });
+        mostrarObjetos();
+    </script>
+</body>
+
+</html>
+</script>
+
+</body>
+
+</html>

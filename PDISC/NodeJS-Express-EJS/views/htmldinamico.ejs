@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+ <head> </head>
+ <body>
+   <H1>Hola, Bienvenido <%= nombreUsuario%> a nuestro sitio web!!!</H1>
+   <input type="button" onclick="traerDatos();" value="Traer Datos" />
+   <div id="masDatos"></div>
+
+
+   <script>
+     async function traerDatos() {
+       // Hacemos un fetch request para obtener los datos
+       try {
+         const response = await fetch("recuperarDatos");
+         document.querySelector("#masDatos").innerHTML = await response.text();
+       } catch (error) {
+         // Manejamos los errors que pudieran ocurrir en el fetch
+         console.error("Fetch error:", error);
+       }
+     }
+   </script>
